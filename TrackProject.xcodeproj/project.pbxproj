@@ -15,6 +15,7 @@
 		6CC7AA14234143450083F528 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CC7AA12234143450083F528 /* LaunchScreen.storyboard */; };
 		6CC7AA1F234143450083F528 /* TrackProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC7AA1E234143450083F528 /* TrackProjectTests.swift */; };
 		6CC7AA2A234143450083F528 /* TrackProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC7AA29234143450083F528 /* TrackProjectUITests.swift */; };
+		6CC7AA3823420CDA0083F528 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 6CC7AA3723420CDA0083F528 /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		6CC7AA25234143450083F528 /* TrackProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CC7AA29234143450083F528 /* TrackProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackProjectUITests.swift; sourceTree = "<group>"; };
 		6CC7AA2B234143450083F528 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6CC7AA3723420CDA0083F528 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 		6CC7A9FB234143440083F528 = {
 			isa = PBXGroup;
 			children = (
+				6CC7AA3723420CDA0083F528 /* .gitignore */,
 				6CC7AA06234143440083F528 /* TrackProject */,
 				6CC7AA1D234143450083F528 /* TrackProjectTests */,
 				6CC7AA28234143450083F528 /* TrackProjectUITests */,
@@ -232,6 +235,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CC7AA3823420CDA0083F528 /* .gitignore in Resources */,
 				6CC7AA14234143450083F528 /* LaunchScreen.storyboard in Resources */,
 				6CC7AA11234143450083F528 /* Assets.xcassets in Resources */,
 				6CC7AA0F234143440083F528 /* Main.storyboard in Resources */,
