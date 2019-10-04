@@ -13,8 +13,20 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         print("Func: viewDidLoad. Called after the controller's view is loaded into memory.")
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    
     }
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     override func viewDidAppear(_ animated: Bool) {
         print("Func: viewDidAppear. Notifies the view controller that its view was added to a view hierarchy.")
