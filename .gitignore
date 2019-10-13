@@ -1,5 +1,4 @@
 *.xccheckout
-DerivedData/
-xcuserdata/
-build/
-*TrackProject/
+*DerivedData/
+*xcuserdata/
+*build/
