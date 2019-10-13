@@ -10,12 +10,11 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource {
     
-
     @IBOutlet weak var myTableView: UITableView!
-    @IBOutlet weak var UIViewAtTheTop: UIView!
+//    @IBOutlet weak var UIViewAtTheTop: UIView!
     @IBOutlet weak var buttonAtTheTop: UIButton!
+    @IBOutlet weak var UIViewAtTheTop: UIView!
     
-//    var UIViewAtTheTop: UIView!
 //    var buttonAtTheTop: UIButton!
     
     
@@ -31,29 +30,36 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+                
         createUIViewWithPickerView()
-        
+                
         let blurEffect = UIBlurEffect(style: .light)
         let blurView = UIVisualEffectView(effect: blurEffect)
         
+        UIViewAtTheTop.frame.size.width = view.frame.size.width
+        
         blurView.frame = UIViewAtTheTop.bounds
         
-//        blurView.frame = UINavigationBar.appearance().bounds
-        
-//        UIViewAtTheTop = UIView(frame: UINavigationBar.appearance().bounds)
                 
         UIViewAtTheTop.addSubview(blurView)
         UIViewAtTheTop.alpha = 1
         UIViewAtTheTop.insertSubview(blurView, at: 0)
         
-//        buttonAtTheTop = UIButton(frame: CGRect(origin: CGPoint(x: UIViewAtTheTop.frame.size.width / 2, y: UIViewAtTheTop.frame.size.height / 2), size: CGSize(width: UIViewAtTheTop.frame.size.width / 2, height: UIViewAtTheTop.frame.size.height)))
+        view.addSubview(UIViewAtTheTop)
+                
+        UIViewAtTheTop.addSubview(buttonAtTheTop)
         
-//        UIViewAtTheTop.addSubview(buttonAtTheTop)
+//        navigationItem.titleView?.addSubview(buttonAtTheTop)
+        
+        UIViewAtTheTop.addSubview(buttonAtTheTop)
         
         setButtonAtTheTop(index: 0)
         
-        myTableView.contentInset = UIEdgeInsets(top: UIViewAtTheTop.frame.size.height / 2, left: 0, bottom: 0, right: 0)
+        buttonAtTheTop.isHidden = false
+        
+        print(UIViewAtTheTop.frame.size.height / 1.6)
+        
+        myTableView.contentInset = UIEdgeInsets(top: UIViewAtTheTop.frame.size.height / 1.6, left: 0, bottom: 0, right: 0)
         
 //        UINavigationBar.appearance().addSubview(UIViewAtTheTop)
         
@@ -65,15 +71,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func setButtonAtTheTop(index: Int) {
         
-        buttonAtTheTop.isHidden = false
+        buttonAtTheTop.isHidden = true
         
-//        buttonAtTheTop.isHighlighted = false
-        
+        buttonAtTheTop.setTitle("", for: .normal)
+            
+        buttonAtTheTop.titleLabel?.frame.size.width = buttonAtTheTop.frame.size.width
+        buttonAtTheTop.setTitleColor(UIColor.black, for: .normal)
+        buttonAtTheTop.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 20)
         buttonAtTheTop.setTitle(categories[index], for: .normal)
         
-        buttonAtTheTop.setTitleColor(UIColor.black, for: .normal)
-        buttonAtTheTop.titleLabel?.frame.size.width = buttonAtTheTop.frame.size.width
-        buttonAtTheTop.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 20)
+//        buttonAtTheTop.isHidden = false
     }
 
     // MARK: - Table view data source
@@ -130,7 +137,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         nextVC.titleOfTheNew = titles[indexPath.row]
         nextVC.nameOfImageOfTheNew = images[indexPath.row]
         
-        navigationController?.pushViewController(nextVC, animated: true)
+//        navigationController?.pushViewController(nextVC, animated: true)
         
         self.present(nextVC, animated: true, completion: nil)
         
@@ -159,6 +166,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        print(categories[row])
         
         setButtonAtTheTop(index: row)
+        
+        buttonAtTheTop.isHidden = false
+
         
 //        print(buttonAtTheTop.titleLabel?.text)
     }

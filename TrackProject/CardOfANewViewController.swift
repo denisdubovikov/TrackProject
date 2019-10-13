@@ -23,8 +23,8 @@ class CardOfANewViewController: UINavigationController {
         
         view.backgroundColor = .white
         
-        let imageOfTheNewRect = CGRect(x: 20, y: view.frame.size.height / 2, width: view.frame.size.width - 40, height: 300)
-        let titleLabelRect = CGRect(x: 0, y: 0, width: imageOfTheNewRect.width, height: imageOfTheNewRect.height)
+        let imageOfTheNewRect = CGRect(x: 20, y: view.frame.size.height / 5, width: view.frame.size.width - 40, height: 300)
+        let titleLabelRect = CGRect(x: 0, y: imageOfTheNewRect.height / 2, width: imageOfTheNewRect.width, height: imageOfTheNewRect.height / 2)
         
         imageOfTheNew = UIImage(named: nameOfImageOfTheNew!)
         
@@ -41,9 +41,11 @@ class CardOfANewViewController: UINavigationController {
         imageViewOfTheNew.clipsToBounds = true
         imageViewOfTheNew.layer.cornerRadius = 20
         
-        self.navigationController?.navigationBar.backIndicatorImage = UIImage(named: nameOfImageOfTheNew!)
-        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: nameOfImageOfTheNew!)
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "titlE", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
+//        self.navigationItem.backBarButtonItem?.title = "Back"
+        
+//        self.navigationController?.navigationBar.backIndicatorImage = UIImage(named: nameOfImageOfTheNew!)
+//        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: nameOfImageOfTheNew!)
+//        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "titlE", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
         
 //        backButton.setTitle("Back", for: .normal)
 //        backButton.setTitleColor(.black, for: .normal)
