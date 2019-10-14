@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CardOfANewViewController: UINavigationController {
+class CardOfANewViewController: UIViewController {
     
     var titleOfTheNew: String?
     var nameOfImageOfTheNew: String?
@@ -24,13 +24,13 @@ class CardOfANewViewController: UINavigationController {
         view.backgroundColor = .white
         
         let imageOfTheNewRect = CGRect(x: 20, y: view.frame.size.height / 5, width: view.frame.size.width - 40, height: 300)
-        let titleLabelRect = CGRect(x: 0, y: imageOfTheNewRect.height / 2, width: imageOfTheNewRect.width, height: imageOfTheNewRect.height / 2)
+        let titleLabelRect = CGRect(x: 10, y: imageOfTheNewRect.height / 2, width: imageOfTheNewRect.width, height: imageOfTheNewRect.height / 2)
         
         imageOfTheNew = UIImage(named: nameOfImageOfTheNew!)
         
         titleLabel = UILabel(frame: titleLabelRect)
         imageViewOfTheNew = UIImageView(frame: imageOfTheNewRect)
-        backButton = UIButton(type: .custom)
+        backButton = UIButton(frame: CGRect(x: 0, y: 90, width: 50, height: 50))
         
         titleLabel.text = titleOfTheNew!
         titleLabel.font = UIFont(name: "Helvetica Neue", size: 36)
@@ -45,15 +45,16 @@ class CardOfANewViewController: UINavigationController {
         
 //        self.navigationController?.navigationBar.backIndicatorImage = UIImage(named: nameOfImageOfTheNew!)
 //        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: nameOfImageOfTheNew!)
-//        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "titlE", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
+//         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "BACK", style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonPressed(_:)))
+//        self.navigationItem.backBarButtonItem.
         
-//        backButton.setTitle("Back", for: .normal)
-//        backButton.setTitleColor(.black, for: .normal)
-//        backButton.addTarget(self, action: Selector(("backButtonPressed")), for: .touchUpInside)
-//        backButton.tintColor = .black
-//        backButton.backgroundColor = .orange
-        
-//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        backButton.setTitle("Back", for: .normal)
+        backButton.setTitleColor(.black, for: .normal)
+        backButton.addTarget(self, action: #selector(backButtonPressed(_:)), for: .touchUpInside)
+        backButton.tintColor = .black
+        backButton.backgroundColor = .orange
+                        
+//        navigationController?.navigationItem.backBarButtonItem
         
         let gradient = CAGradientLayer()
         gradient.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: imageViewOfTheNew.frame.size.width, height: imageViewOfTheNew.frame.size.height))
@@ -65,11 +66,13 @@ class CardOfANewViewController: UINavigationController {
         imageViewOfTheNew.addSubview(titleLabel)
         
         view.addSubview(imageViewOfTheNew)
-//        view.addSubview(backButton)
+        view.addSubview(backButton)
         
 
         // Do any additional setup after loading the view.
     }
+    
+    
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)

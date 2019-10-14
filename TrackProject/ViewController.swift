@@ -12,10 +12,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var myTableView: UITableView!
 //    @IBOutlet weak var UIViewAtTheTop: UIView!
-    @IBOutlet weak var buttonAtTheTop: UIButton!
-    @IBOutlet weak var UIViewAtTheTop: UIView!
+//    @IBOutlet weak var buttonAtTheTop: UIButton!
+//    @IBOutlet weak var UIViewAtTheTop: UIView!
     
-//    var buttonAtTheTop: UIButton!
+    var buttonAtTheTop: UIButton!
+    var UIViewAtTheTop: UIView!
     
     
     var images = ["img1", "img2", "img3", "img4"]
@@ -30,36 +31,60 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         
         super.viewDidLoad()
-                
+        
         createUIViewWithPickerView()
+        
+        navigationController?.popToRootViewController(animated: true)
+        
+//        var buttonAtTheTopFrame = CGRect(x: 0, y: 0, width: 200, height: 30)
+        let UIViewAtTheTopFrame = CGRect(x: 0, y: 0, width: (navigationController?.navigationBar.frame.size.width)!, height: (navigationController?.navigationBar.frame.size.height)!)
+        
+        UIViewAtTheTop = UIView(frame: UIViewAtTheTopFrame)
+        buttonAtTheTop = UIButton(frame: CGRect(x: (navigationController?.navigationBar.frame.size.width)! / 2 - (navigationController?.navigationBar.frame.size.width)! / 6, y: (navigationController?.navigationBar.frame.size.height)! / 2 - (navigationController?.navigationBar.frame.size.height)! / 6, width: (navigationController?.navigationBar.frame.size.width)! / 3, height: (navigationController?.navigationBar.frame.size.height)! / 3))
                 
         let blurEffect = UIBlurEffect(style: .light)
         let blurView = UIVisualEffectView(effect: blurEffect)
         
-        UIViewAtTheTop.frame.size.width = view.frame.size.width
+//        UIViewAtTheTop.frame.size.width = view.frame.size.width
+//        UIViewAtTheTop.frame.size.height = 30
         
-        blurView.frame = UIViewAtTheTop.bounds
+//        UIViewAtTheTop.frame = (navigationController?.navigationBar.frame)!
+        
+        blurView.frame = (self.navigationController?.navigationBar.bounds.insetBy(dx: 0, dy: -10).offsetBy(dx: 0, dy: -10))!
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.addSubview(blurView)
+        self.navigationController?.navigationBar.sendSubviewToBack(blurView)
+        
         
                 
-        UIViewAtTheTop.addSubview(blurView)
-        UIViewAtTheTop.alpha = 1
-        UIViewAtTheTop.insertSubview(blurView, at: 0)
-        
-        view.addSubview(UIViewAtTheTop)
-                
-        UIViewAtTheTop.addSubview(buttonAtTheTop)
-        
+//        UIViewAtTheTop.addSubview(blurView)
+//        UIViewAtTheTop.alpha = 1
+//        UIViewAtTheTop.insertSubview(blurView, at: 0)
+                                
 //        navigationItem.titleView?.addSubview(buttonAtTheTop)
         
-        UIViewAtTheTop.addSubview(buttonAtTheTop)
+//        UIViewAtTheTop.addSubview(buttonAtTheTop)
         
         setButtonAtTheTop(index: 0)
         
         buttonAtTheTop.isHidden = false
         
-        print(UIViewAtTheTop.frame.size.height / 1.6)
+//        navigationController?.navigationBar.backgroundColor = .clear
         
-        myTableView.contentInset = UIEdgeInsets(top: UIViewAtTheTop.frame.size.height / 1.6, left: 0, bottom: 0, right: 0)
+//        view.addSubview(UIViewAtTheTop)
+//        view.addSubview(buttonAtTheTop)
+        
+        UIViewAtTheTop.addSubview(buttonAtTheTop)
+        self.navigationController?.navigationBar.addSubview(UIViewAtTheTop)
+        
+        buttonAtTheTop.layer.zPosition = 100
+
+        
+//        print(UIViewAtTheTop.frame.size.height / 1.6)
+        
+//        myTableView.contentInset = UIEdgeInsets(top: UIViewAtTheTop.frame.size.height / 1.6, left: 0, bottom: 0, right: 0)
         
 //        UINavigationBar.appearance().addSubview(UIViewAtTheTop)
         
@@ -72,13 +97,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func setButtonAtTheTop(index: Int) {
         
         buttonAtTheTop.isHidden = true
-        
         buttonAtTheTop.setTitle("", for: .normal)
-            
         buttonAtTheTop.titleLabel?.frame.size.width = buttonAtTheTop.frame.size.width
         buttonAtTheTop.setTitleColor(UIColor.black, for: .normal)
         buttonAtTheTop.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 20)
         buttonAtTheTop.setTitle(categories[index], for: .normal)
+        buttonAtTheTop.addTarget(self, action: #selector(ButtonAtTheTopPressed(_:)), for: .touchUpInside)
         
 //        buttonAtTheTop.isHidden = false
     }
@@ -131,18 +155,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let nextVC = CardOfANewViewController(nibName: "name", bundle: nil)
-        
+                
+        let nextVC = CardOfANewViewController()
+
         nextVC.titleOfTheNew = titles[indexPath.row]
         nextVC.nameOfImageOfTheNew = images[indexPath.row]
+                
+        self.navigationController?.pushViewController(nextVC, animated: true)
         
-//        navigationController?.pushViewController(nextVC, animated: true)
-        
-        self.present(nextVC, animated: true, completion: nil)
-        
-//        let myStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        
+//        self.present(nextVC, animated: true, completion: nil)
+                
         
     }
 
@@ -209,8 +231,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         print(pickerViewOnUIView.numberOfRows(inComponent: 0))
     }
-    
-    
     
     
     @IBAction func ButtonAtTheTopPressed(_ sender: Any) {
