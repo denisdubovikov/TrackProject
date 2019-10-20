@@ -15,23 +15,87 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //    @IBOutlet weak var buttonAtTheTop: UIButton!
 //    @IBOutlet weak var UIViewAtTheTop: UIView!
     
+    var buttonAccount : UIButton!
     var buttonAtTheTop: UIButton!
     var UIViewAtTheTop: UIView!
-    
     
     var images = ["img1", "img2", "img3", "img4"]
     var titles = ["Rent your bus!", "The secret of Michigan", "Try yourself now", "Hot discussions"]
     
     var categories = ["Main", "Travel", "Education", "Other"]
+    
+    var countOfArticles = -1
+    var imagesURLParsed: [URL] = []
+    var titlesParsed: [String] = []
         
     var UIViewWithPickerView: UIView!
     var pickerViewOnUIView: UIPickerView!
+    
+    var myRequest = URL(string: "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=fc3c4a1a6478477c950bf27f2500ded9")
+    
+//    var myResponse: [String: Any]
+    
+    struct myResp: Codable {
+        var status: String?
+        var totalResults: Int?
+        struct cArticles: Codable {
+            struct source: Codable {
+                var id: Int?
+                var name: String?
+            }
+            var author: String?
+            var title: String?
+            var description: String?
+            var url: URL?
+            var urlToImage: URL?
+            var publishedAt: String?
+            var content: String?
+        }
+        var articles: [cArticles]
+    }
     
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
+        let task = URLSession.shared.dataTask(with: myRequest!) { (data, response, error) in
+            if let error = error {
+                print("error: \(error)")
+            } else {
+                if let response = response as? HTTPURLResponse {
+                    print("status code: \(response.statusCode)")
+                }
+            
+//                let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
+                
+//                print(responseJSON)
+                
+                let product: myResp = try! JSONDecoder().decode(myResp.self, from: data!)
+                
+                self.countOfArticles = 10//product.totalResults ?? -1
+                
+                print(product.articles)
+                
+                for i in 0...self.countOfArticles {
+                    self.imagesURLParsed.append(product.articles[i].urlToImage!)
+                    self.titlesParsed.append(product.articles[i].title ?? "nil")
+                }
+                
+                print(product)
+                
+                
+                
+                DispatchQueue.main.async {
+                    self.myTableView.reloadData()
+                }
+                
+            }
+            
+        }
+        
+        task.resume()
+            
         createUIViewWithPickerView()
         
         navigationController?.popToRootViewController(animated: true)
@@ -41,6 +105,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         UIViewAtTheTop = UIView(frame: UIViewAtTheTopFrame)
         buttonAtTheTop = UIButton(frame: CGRect(x: (navigationController?.navigationBar.frame.size.width)! / 2 - (navigationController?.navigationBar.frame.size.width)! / 6, y: (navigationController?.navigationBar.frame.size.height)! / 2 - (navigationController?.navigationBar.frame.size.height)! / 6, width: (navigationController?.navigationBar.frame.size.width)! / 3, height: (navigationController?.navigationBar.frame.size.height)! / 3))
+
+        buttonAccount = UIButton(frame: CGRect(x: (navigationController?.navigationBar.frame.size.width)! - ((navigationController?.navigationBar.frame.size.height)! / 2 + (navigationController?.navigationBar.frame.size.height)! / 6), y:  (navigationController?.navigationBar.frame.size.height)! / 2 - (navigationController?.navigationBar.frame.size.height)! / 6, width: (navigationController?.navigationBar.frame.size.height)! / 3, height: (navigationController?.navigationBar.frame.size.height)! / 3))
                 
         let blurEffect = UIBlurEffect(style: .light)
         let blurView = UIVisualEffectView(effect: blurEffect)
@@ -68,8 +134,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        UIViewAtTheTop.addSubview(buttonAtTheTop)
         
         setButtonAtTheTop(index: 0)
+        setButtonAccount()
         
         buttonAtTheTop.isHidden = false
+        buttonAccount.isHidden = false
         
 //        navigationController?.navigationBar.backgroundColor = .clear
         
@@ -77,9 +145,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        view.addSubview(buttonAtTheTop)
         
         UIViewAtTheTop.addSubview(buttonAtTheTop)
+        UIViewAtTheTop.addSubview(buttonAccount)
         self.navigationController?.navigationBar.addSubview(UIViewAtTheTop)
         
         buttonAtTheTop.layer.zPosition = 100
+        buttonAccount.layer.zPosition = 100
 
         
 //        print(UIViewAtTheTop.frame.size.height / 1.6)
@@ -106,6 +176,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
 //        buttonAtTheTop.isHidden = false
     }
+    
+    func setButtonAccount() {
+
+        buttonAccount.backgroundColor = .red
+        buttonAccount.addTarget(self, action: #selector(ButtonAccountPressed(_:)), for: .touchUpInside)
+    }
 
     // MARK: - Table view data source
 
@@ -117,7 +193,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return images.count
+        return countOfArticles == -1 ? images.count : countOfArticles
     }
 
 
@@ -126,28 +202,49 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let cell: TableViewCell = tableView.dequeueReusableCell(withIdentifier: "TBVCCell") as! TableViewCell
         
-        let cellImg: UIImage = UIImage(named: images[indexPath.row])!
+//        var cellImg: UIImage
+        
+        if countOfArticles == -1 {
+//            cellImg = UIImage(named: images[indexPath.row])!
+//            cell.TableViewCellImageView.image = cellImg
+            return cell
+        } else {
+            let imgURL = imagesURLParsed[indexPath.row]
+//            cellImg = UIImage(data: NSData(contentsOfFile: imagesURLParsed[indexPath.row]) as Data)!
+            
+            DispatchQueue.global().async {
+                if let data = try? Data(contentsOf: imgURL) {
+                    if let image = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            cell.TableViewCellImageView.image = image
+                        }
+                    }
+                }
+            }
+            
+            cell.TableViewCellTitle.text = titlesParsed[indexPath.row]
+        }
         
         
         cell.TableViewCellImageView.contentMode = UIView.ContentMode.scaleAspectFill
-        
-        cell.TableViewCellImageView.image = cellImg
+//        cell.TableViewCellImageView.image = cellImg
         cell.TableViewCellImageView.clipsToBounds = true
         cell.TableViewCellImageView.layer.cornerRadius = 20
         cell.TableViewCellImageView.self.frame.size.height = CGFloat(300)
         cell.TableViewCellImageView.self.frame.size.width = CGFloat(cell.frame.size.width - 40)
         
-        print(cell.TableViewCellImageView.frame)
+//        print(cell.TableViewCellImageView.frame)
         
         let gradient = CAGradientLayer()
         gradient.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: cell.TableViewCellImageView.frame.size.width, height: cell.TableViewCellImageView.frame.size.height))
         gradient.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
         gradient.locations = [0.5, 1]
         
+        cell.TableViewCellImageView.layer.sublayers?.removeAll()
         cell.TableViewCellImageView.layer.addSublayer(gradient)
         
         cell.TableViewCellTitle.textColor = UIColor.white
-        cell.TableViewCellTitle.text = titles[indexPath.row]
+//        cell.TableViewCellTitle.text = titles[indexPath.row]
         cell.TableViewCellTitle.font = UIFont(name: "Helvetica Neue", size: 36)
         
         
@@ -158,8 +255,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
         let nextVC = CardOfANewViewController()
 
-        nextVC.titleOfTheNew = titles[indexPath.row]
-        nextVC.nameOfImageOfTheNew = images[indexPath.row]
+        nextVC.titleOfTheNew = titlesParsed[indexPath.row]
+//        nextVC.nameOfImageOfTheNew = images[indexPath.row]
+        let imgURL = imagesURLParsed[indexPath.row]
+        
+        nextVC.imageOfTheNew = UIImage(named: "img1")
+
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: imgURL) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        nextVC.imageOfTheNew = image
+                    }
+                }
+            }
+        }
                 
         self.navigationController?.pushViewController(nextVC, animated: true)
         
@@ -239,6 +349,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    @IBAction func ButtonAccountPressed(_ sender: Any) {
+        
+        let accountVC = AccountViewController()
+            
+        self.navigationController?.pushViewController(accountVC, animated: true)
+        
+    }
+    
     
     
     
@@ -252,6 +370,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewWillAppear(_ animated: Bool) {
         print("Func: viewWillAppear. otifies the view controller that its view is about to be added to a view hierarchy.")
+        buttonAtTheTop.isHidden = false
+        buttonAccount.isHidden = false
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -260,6 +380,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewWillDisappear(_ animated: Bool) {
         print("Func: viewWillDissappear. Notifies the view controller that its view is about to be removed from a view hierarchy.")
+        buttonAtTheTop.isHidden = true
+        buttonAccount.isHidden = true
     }
     
     override func viewDidLayoutSubviews() {

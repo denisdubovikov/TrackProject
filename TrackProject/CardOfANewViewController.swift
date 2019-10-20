@@ -26,7 +26,7 @@ class CardOfANewViewController: UIViewController {
         let imageOfTheNewRect = CGRect(x: 20, y: view.frame.size.height / 5, width: view.frame.size.width - 40, height: 300)
         let titleLabelRect = CGRect(x: 10, y: imageOfTheNewRect.height / 2, width: imageOfTheNewRect.width, height: imageOfTheNewRect.height / 2)
         
-        imageOfTheNew = UIImage(named: nameOfImageOfTheNew!)
+//        imageOfTheNew = UIImage(named: nameOfImageOfTheNew!)
         
         titleLabel = UILabel(frame: titleLabelRect)
         imageViewOfTheNew = UIImageView(frame: imageOfTheNewRect)
@@ -67,6 +67,8 @@ class CardOfANewViewController: UIViewController {
         
         view.addSubview(imageViewOfTheNew)
         view.addSubview(backButton)
+        
+//        self.navigationItem.
         
 
         // Do any additional setup after loading the view.
