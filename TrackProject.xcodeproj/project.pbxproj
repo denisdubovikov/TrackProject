@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6C1634E323609B5D00A19E80 /* CellSelectionAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1634E223609B5D00A19E80 /* CellSelectionAccountVC.swift */; };
 		6CC7AA08234143440083F528 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC7AA07234143440083F528 /* AppDelegate.swift */; };
 		6CC7AA0A234143440083F528 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC7AA09234143440083F528 /* SceneDelegate.swift */; };
 		6CC7AA0C234143440083F528 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC7AA0B234143440083F528 /* ViewController.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6C1634E223609B5D00A19E80 /* CellSelectionAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellSelectionAccountVC.swift; sourceTree = "<group>"; };
 		6CC7AA04234143440083F528 /* TrackProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrackProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CC7AA07234143440083F528 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6CC7AA09234143440083F528 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				6CC7AA3B234E04540083F528 /* TableViewCell.swift */,
 				6CC7AA4123533EC00083F528 /* CardOfANewViewController.swift */,
 				6CC7AA4323576A410083F528 /* AccountViewController.swift */,
+				6C1634E223609B5D00A19E80 /* CellSelectionAccountVC.swift */,
 				6CC7AA0D234143440083F528 /* Main.storyboard */,
 				6CC7AA10234143450083F528 /* Assets.xcassets */,
 				6CC7AA12234143450083F528 /* LaunchScreen.storyboard */,
@@ -275,6 +278,7 @@
 				6CC7AA4223533EC00083F528 /* CardOfANewViewController.swift in Sources */,
 				6CC7AA3C234E04540083F528 /* TableViewCell.swift in Sources */,
 				6CC7AA4423576A410083F528 /* AccountViewController.swift in Sources */,
+				6C1634E323609B5D00A19E80 /* CellSelectionAccountVC.swift in Sources */,
 				6CC7AA0C234143440083F528 /* ViewController.swift in Sources */,
 				6CC7AA08234143440083F528 /* AppDelegate.swift in Sources */,
 				6CC7AA0A234143440083F528 /* SceneDelegate.swift in Sources */,

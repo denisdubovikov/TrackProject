@@ -11,7 +11,7 @@ import UIKit
 class CardOfANewViewController: UIViewController {
     
     var titleOfTheNew: String?
-    var nameOfImageOfTheNew: String?
+    var imageOfTheNewURL: URL?
     
     var titleLabel: UILabel!
     var imageOfTheNew: UIImage!
@@ -36,7 +36,20 @@ class CardOfANewViewController: UIViewController {
         titleLabel.font = UIFont(name: "Helvetica Neue", size: 36)
         titleLabel.textColor = UIColor.white
         
-        imageViewOfTheNew.image = imageOfTheNew!
+                    
+        if imageOfTheNewURL != nil {
+            DispatchQueue.global().async {
+                if let data = try? Data(contentsOf: self.imageOfTheNewURL!) {
+                    if let image = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            self.imageViewOfTheNew.image = image
+                        }
+                    }
+                }
+            }
+        }
+        
+//        imageViewOfTheNew.image = imageOfTheNew!
         imageViewOfTheNew.contentMode = UIView.ContentMode.scaleAspectFill
         imageViewOfTheNew.clipsToBounds = true
         imageViewOfTheNew.layer.cornerRadius = 20
@@ -65,18 +78,16 @@ class CardOfANewViewController: UIViewController {
         
         imageViewOfTheNew.addSubview(titleLabel)
         
+        self.navigationController?.navigationBar.backItem?.backBarButtonItem?.action = #selector(CardOfANewViewController.backButtonPressed(_:))
+        
         view.addSubview(imageViewOfTheNew)
-        view.addSubview(backButton)
-        
-//        self.navigationItem.
-        
-
-        // Do any additional setup after loading the view.
+//        view.addSubview(backButton)
+  
     }
     
     
     
-    @IBAction func backButtonPressed(_ sender: UIButton) {
+    @IBAction func backButtonPressed(_ sender: UIBarButtonItem) {
         self.navigationController?.popViewController(animated: true)
     }
     

@@ -78,7 +78,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 print(product.articles)
                 
                 for i in 0...self.countOfArticles {
-                    self.imagesURLParsed.append(product.articles[i].urlToImage!)
+                    self.imagesURLParsed.append(product.articles[i].urlToImage ?? URL(fileURLWithPath: "nil"))
                     self.titlesParsed.append(product.articles[i].title ?? "nil")
                 }
                 
@@ -116,14 +116,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
 //        UIViewAtTheTop.frame = (navigationController?.navigationBar.frame)!
         
-        blurView.frame = (self.navigationController?.navigationBar.bounds.insetBy(dx: 0, dy: -10).offsetBy(dx: 0, dy: -10))!
+        blurView.frame = (self.navigationController?.navigationBar.bounds.insetBy(dx: 0, dy: 0).offsetBy(dx: 0, dy: 0))!
         blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.addSubview(blurView)
         self.navigationController?.navigationBar.sendSubviewToBack(blurView)
-        
-        
+
                 
 //        UIViewAtTheTop.addSubview(blurView)
 //        UIViewAtTheTop.alpha = 1
@@ -146,6 +145,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         UIViewAtTheTop.addSubview(buttonAtTheTop)
         UIViewAtTheTop.addSubview(buttonAccount)
+        
+//        self.navigationController?.navigationBar.backItem.
+        
+//        self.navigationController?.navigationBar.backItem?.rightBarButtonItem?.action = Selector()
+        
         self.navigationController?.navigationBar.addSubview(UIViewAtTheTop)
         
         buttonAtTheTop.layer.zPosition = 100
@@ -212,14 +216,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let imgURL = imagesURLParsed[indexPath.row]
 //            cellImg = UIImage(data: NSData(contentsOfFile: imagesURLParsed[indexPath.row]) as Data)!
             
-            DispatchQueue.global().async {
-                if let data = try? Data(contentsOf: imgURL) {
-                    if let image = UIImage(data: data) {
-                        DispatchQueue.main.async {
-                            cell.TableViewCellImageView.image = image
+            if imgURL != nil {
+                DispatchQueue.global().async {
+                    if let data = try? Data(contentsOf: imgURL) {
+                        if let image = UIImage(data: data) {
+                            DispatchQueue.main.async {
+                                cell.TableViewCellImageView.image = image
+                            }
                         }
                     }
                 }
+            } else {
+                cell.TableViewCellImageView.image = UIImage(named: "img1")
             }
             
             cell.TableViewCellTitle.text = titlesParsed[indexPath.row]
@@ -256,20 +264,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let nextVC = CardOfANewViewController()
 
         nextVC.titleOfTheNew = titlesParsed[indexPath.row]
-//        nextVC.nameOfImageOfTheNew = images[indexPath.row]
-        let imgURL = imagesURLParsed[indexPath.row]
         
-        nextVC.imageOfTheNew = UIImage(named: "img1")
-
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: imgURL) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        nextVC.imageOfTheNew = image
-                    }
-                }
-            }
-        }
+        nextVC.imageOfTheNewURL = imagesURLParsed[indexPath.row]
+        
+        print(imagesURLParsed[indexPath.row])
                 
         self.navigationController?.pushViewController(nextVC, animated: true)
         
@@ -292,10 +290,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-//        buttonAtTheTop.titleLabel!.frame.size.width = buttonAtTheTop.frame.size.width
-//        buttonAtTheTop.titleLabel!.text = categories[row]
-//        print(categories[row])
         
         setButtonAtTheTop(index: row)
         
@@ -339,7 +333,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         view.addSubview(UIViewWithPickerView)
         
-        print(pickerViewOnUIView.numberOfRows(inComponent: 0))
+//        print(pickerViewOnUIView.numberOfRows(inComponent: 0))
     }
     
     
@@ -353,6 +347,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let accountVC = AccountViewController()
             
+        accountVC.categories = categories
+        
         self.navigationController?.pushViewController(accountVC, animated: true)
         
     }

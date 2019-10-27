@@ -8,7 +8,12 @@
 
 import UIKit
 
-class AccountViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AccountViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource {
+    
+    var categories: [String] = []
+    var categoriesSelected: [Bool] = []
+    
+    var cellSelected: Int!
     
     var photoImageView: UIImageView!
     var userNameTextField: UITextField!
@@ -20,10 +25,27 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     var imagePicker = UIImagePickerController()
     
+    var selectionView: UIView!
+    var selectionTbView: UITableView!
+    var selectionViewHideButton: UIButton!
+    
+    var showCategoriesButton: UIButton!
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        let selectionViewFrame = CGRect(x: 0, y: view.frame.size.height / 2, width: view.frame.size.width, height: view.frame.size.height)
+        let selectionTbViewFrame = CGRect(x: 0, y: 30, width: view.frame.size.width, height: view.frame.size.height / 2 - 30)
+        let selectionViewHideButtonFrame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 30)
+        
+        selectionView = UIView(frame: selectionViewFrame)
+        selectionTbView = UITableView(frame: selectionTbViewFrame)
+        selectionViewHideButton = UIButton(frame: selectionViewHideButtonFrame)
+        
+        setSelectionView()
+        
+//        selectionView.isHidden = true
         
         imagePicker.delegate = self
         
@@ -57,14 +79,17 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
                 self.photoImageView.image = UIImage(data: (usrDefaults.data(forKey: "userprofilephoto")!))
             }
         }
-        
+                
         view.addSubview(userNameTextField)
         view.addSubview(photoImageView)
+        view.addSubview(selectionView)
         
         setChoseProfilePictureButton()
         
         setSaveGCDButton()
         setSaveNSOperationButton()
+        
+        setShowCategoriesButton()
         
         // Do any additional setup after loading the view.
     }
@@ -129,12 +154,108 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
         
     }
     
+    func setShowCategoriesButton() {
+        showCategoriesButton = UIButton(frame: CGRect(x: 20, y: 550, width: view.frame.size.width - 40, height: 30))
+        showCategoriesButton.backgroundColor = .orange
+        showCategoriesButton.addTarget(self, action: #selector(showCategoriesButtonPressed), for: .touchUpInside)
+        
+        view.addSubview(showCategoriesButton)
+    }
+    
+    @IBAction func showCategoriesButtonPressed() {
+        selectionView.isHidden = false
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             self.photoImageView.image = image
         }
         
         dismiss(animated: true, completion: nil)
+    }
+    
+    func setSelectionView() {
+        
+        setSelectionTbView()
+        setSelectionViewHideButton()
+        
+        selectionView.clipsToBounds = true
+        selectionView.layer.cornerRadius = 20
+                
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        
+        blurView.frame = selectionView.bounds
+        
+        selectionView.addSubview(blurView)
+        selectionView.alpha = 1
+        selectionView.insertSubview(blurView, at: 0)
+        
+        selectionView.addSubview(selectionTbView)
+        selectionView.addSubview(selectionViewHideButton)
+        
+        selectionView.layer.zPosition = 10
+    }
+    
+    func setSelectionTbView() {
+        
+        selectionTbView.register(CellSelectionAccountVC.self, forCellReuseIdentifier: "selectionTVCell")
+        
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        
+        blurView.frame = selectionTbView.bounds
+        
+        selectionTbView.backgroundColor = .clear
+        selectionTbView.separatorStyle = .none
+        
+        selectionTbView.delegate = self
+        selectionTbView.dataSource = self
+        
+    }
+    
+    func setSelectionViewHideButton() {
+        selectionViewHideButton.backgroundColor = .white
+        selectionViewHideButton.layer.zPosition = 15
+        selectionViewHideButton.backgroundColor = .red
+        selectionViewHideButton.addTarget(self, action: #selector(selectionViewHideButtonPressed(_:)), for: .touchUpInside)
+    }
+    
+    @IBAction func selectionViewHideButtonPressed(_ sender: Any) {
+        selectionView.isHidden = true
+    }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        categories.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: CellSelectionAccountVC = tableView.dequeueReusableCell(withIdentifier: "selectionTVCell") as! CellSelectionAccountVC
+        
+        cellSelected = indexPath.row
+        
+        cell.backgroundColor = .clear
+                
+        cell.cellLabel.frame = CGRect(x: 20, y: 0, width: view.frame.size.width / 2 - 20, height: 50)
+        cell.cellLabel.text = categories[indexPath.row]
+        
+        cell.cellButtonSelected.frame = CGRect(x: view.frame.size.width - 50, y: 10, width: 30, height: 30)
+        cell.cellButtonSelected.backgroundColor = .blue
+        
+        cell.cellButtonSelected.addTarget(self, action: #selector(cellButtonSelectedPressed(sender:)), for: .touchUpInside)
+        
+//        cell.isUserInteractionEnabled = false
+        
+        return cell
+    }
+    
+    @IBAction func cellButtonSelectedPressed(sender: UIButton) {
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        selectionView.isHidden = true
     }
 
     /*

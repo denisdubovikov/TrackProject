@@ -13,6 +13,10 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var TableViewCellTitle: UILabel!
     @IBOutlet weak var TableViewCellImageView: UIImageView!
     
+    override func prepareForReuse() {
+        TableViewCellImageView.image = nil
+    }
+    
     override func awakeFromNib() {
                 
         super.awakeFromNib()
