@@ -12,22 +12,24 @@ class CardOfANewViewController: UIViewController {
     
     var titleOfTheNew: String?
     var imageOfTheNewURL: URL?
+    var textNew: String?
     
     var titleLabel: UILabel!
     var imageOfTheNew: UIImage!
     var imageViewOfTheNew: UIImageView!
     var backButton: UIButton!
+    var textView: UITextView!
+    
+    var imageOfTheNewRect: CGRect!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
-        let imageOfTheNewRect = CGRect(x: 20, y: view.frame.size.height / 5, width: view.frame.size.width - 40, height: 300)
+        imageOfTheNewRect = CGRect(x: 20, y: (self.navigationController?.navigationBar.frame.maxY)! + 20, width: view.frame.size.width - 40, height: 300)
         let titleLabelRect = CGRect(x: 10, y: imageOfTheNewRect.height / 2, width: imageOfTheNewRect.width, height: imageOfTheNewRect.height / 2)
-        
-//        imageOfTheNew = UIImage(named: nameOfImageOfTheNew!)
-        
+                
         titleLabel = UILabel(frame: titleLabelRect)
         imageViewOfTheNew = UIImageView(frame: imageOfTheNewRect)
         backButton = UIButton(frame: CGRect(x: 0, y: 90, width: 50, height: 50))
@@ -54,20 +56,6 @@ class CardOfANewViewController: UIViewController {
         imageViewOfTheNew.clipsToBounds = true
         imageViewOfTheNew.layer.cornerRadius = 20
         
-//        self.navigationItem.backBarButtonItem?.title = "Back"
-        
-//        self.navigationController?.navigationBar.backIndicatorImage = UIImage(named: nameOfImageOfTheNew!)
-//        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: nameOfImageOfTheNew!)
-//         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "BACK", style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonPressed(_:)))
-//        self.navigationItem.backBarButtonItem.
-        
-        backButton.setTitle("Back", for: .normal)
-        backButton.setTitleColor(.black, for: .normal)
-        backButton.addTarget(self, action: #selector(backButtonPressed(_:)), for: .touchUpInside)
-        backButton.tintColor = .black
-        backButton.backgroundColor = .orange
-                        
-//        navigationController?.navigationItem.backBarButtonItem
         
         let gradient = CAGradientLayer()
         gradient.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: imageViewOfTheNew.frame.size.width, height: imageViewOfTheNew.frame.size.height))
@@ -78,18 +66,37 @@ class CardOfANewViewController: UIViewController {
         
         imageViewOfTheNew.addSubview(titleLabel)
         
-        self.navigationController?.navigationBar.backItem?.backBarButtonItem?.action = #selector(CardOfANewViewController.backButtonPressed(_:))
+        setBackButton()
+        setTextView()
         
         view.addSubview(imageViewOfTheNew)
-//        view.addSubview(backButton)
-  
     }
     
+    func setBackButton() {
+                
+//        self.navigationController?.navigationBar.backItem?.backBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .undo, target: self, action: #selector(backButtonPressed(_:)))
+        
+        self.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: "BACK", style: .plain, target: self, action: #selector(backButtonPressed(_:)))
+        
+//        print(Selector("backButtonPressed"))
+    }
     
-    
-    @IBAction func backButtonPressed(_ sender: UIBarButtonItem) {
+    @objc func backButtonPressed(_ sender: UIBarButtonItem) {
         self.navigationController?.popViewController(animated: true)
     }
+    
+    func setTextView() {
+        let textViewRect = CGRect(x: 20, y: self.imageOfTheNewRect.maxX + 20, width: view.frame.size.width - 40, height: view.frame.size.height - self.imageOfTheNewRect.maxX - 20)
+        
+        textView = UITextView(frame: textViewRect)
+        textView.text = textNew
+        textView.font = UIFont(name: "Helvetica Neue", size: 18)
+        textView.isEditable = false
+        
+        view.addSubview(textView)
+
+    }
+    
     
 
     /*

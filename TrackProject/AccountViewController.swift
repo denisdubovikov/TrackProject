@@ -13,7 +13,7 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
     var categories: [String] = []
     var categoriesSelected: [Bool] = []
     
-    var cellSelected: Int!
+    var countCategoriesSelected: Int!
     
     var photoImageView: UIImageView!
     var userNameTextField: UITextField!
@@ -79,6 +79,16 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
                 self.photoImageView.image = UIImage(data: (usrDefaults.data(forKey: "userprofilephoto")!))
             }
         }
+        
+        if usrDefaults.value(forKey: "categoriesSelected") != nil {
+            categoriesSelected = usrDefaults.value(forKey: "categoriesSelected") as! [Bool]
+        }
+        
+        if usrDefaults.value(forKey: "countCategoriesSelected") != nil {
+            countCategoriesSelected = usrDefaults.value(forKey: "countCategoriesSelected") as? Int
+        } else {
+            countCategoriesSelected = 0
+        }
                 
         view.addSubview(userNameTextField)
         view.addSubview(photoImageView)
@@ -95,12 +105,11 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func setChoseProfilePictureButton() {
-        choseProfilePictureButton = UIButton(frame: CGRect(x: photoImageView.frame.maxX - 60, y: photoImageView.frame.maxY + 20, width: 60, height: 60))
-//        choseProfilePictureButton.layer.borderWidth = 2
         
-        choseProfilePictureButton.setImage(UIImage(named: "cameraLabel"), for: .normal)
-        choseProfilePictureButton.imageView?.contentMode = .scaleAspectFill
-//        choseProfilePictureButton.imageView?.image = UIImage(named: "cameraLabel")
+        choseProfilePictureButton = UIButton(frame: CGRect(x: photoImageView.frame.maxX - 50, y: photoImageView.frame.maxY + 20, width: 50, height: 50))
+        
+        choseProfilePictureButton.setImage(UIImage(named: "Camera_2"), for: .normal)
+        choseProfilePictureButton.imageView?.contentMode = .scaleAspectFit
         choseProfilePictureButton.showsTouchWhenHighlighted = true
         choseProfilePictureButton.addTarget(self, action: #selector(setChoseProfilePictureButtonPressed), for: .touchUpInside)
         
@@ -127,11 +136,14 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     @IBAction func GCDPressed() {
-        DispatchQueue.main.async {
+        
+        DispatchQueue.global().async {
             let usrDefaults = UserDefaults.standard
             
             usrDefaults.set(self.userNameTextField.text!, forKey: "username")
             usrDefaults.set(self.photoImageView.image!.pngData(), forKey: "userprofilephoto")
+            usrDefaults.set(self.categoriesSelected, forKey: "categoriesSelected")
+            usrDefaults.set(self.countCategoriesSelected, forKey: "countCategoriesSelected")
             
             usrDefaults.synchronize()
         }
@@ -156,9 +168,15 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func setShowCategoriesButton() {
         showCategoriesButton = UIButton(frame: CGRect(x: 20, y: 550, width: view.frame.size.width - 40, height: 30))
-        showCategoriesButton.backgroundColor = .orange
+        showCategoriesButton.backgroundColor = .white
+        showCategoriesButton.setTitle("Categories: \(countCategoriesSelected ?? -1) selected", for: .normal)
+        showCategoriesButton.setTitleColor(.black, for: .normal)
+        showCategoriesButton.layer.borderWidth = 1
+        showCategoriesButton.layer.borderColor = (UIColor.black).cgColor
+        showCategoriesButton.clipsToBounds = true
+        showCategoriesButton.layer.cornerRadius = 5
         showCategoriesButton.addTarget(self, action: #selector(showCategoriesButtonPressed), for: .touchUpInside)
-        
+
         view.addSubview(showCategoriesButton)
     }
     
@@ -233,7 +251,7 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: CellSelectionAccountVC = tableView.dequeueReusableCell(withIdentifier: "selectionTVCell") as! CellSelectionAccountVC
         
-        cellSelected = indexPath.row
+//        cellSelected = indexPath.row
         
         cell.backgroundColor = .clear
                 
@@ -241,13 +259,40 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
         cell.cellLabel.text = categories[indexPath.row]
         
         cell.cellButtonSelected.frame = CGRect(x: view.frame.size.width - 50, y: 10, width: 30, height: 30)
-        cell.cellButtonSelected.backgroundColor = .blue
+        
+        if categoriesSelected[indexPath.row] {
+            cell.cellButtonSelected.backgroundColor = .green
+        } else {
+            cell.cellButtonSelected.backgroundColor = .blue
+        }
         
         cell.cellButtonSelected.addTarget(self, action: #selector(cellButtonSelectedPressed(sender:)), for: .touchUpInside)
+        
         
 //        cell.isUserInteractionEnabled = false
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        categoriesSelected[indexPath.row] = !categoriesSelected[indexPath.row]
+        
+        let cell: CellSelectionAccountVC = tableView.dequeueReusableCell(withIdentifier: "selectionTVCell") as! CellSelectionAccountVC
+        
+        if categoriesSelected[indexPath.row] {
+            cell.cellButtonSelected.backgroundColor = .green
+            countCategoriesSelected += 1
+        } else {
+            cell.cellButtonSelected.backgroundColor = .blue
+            countCategoriesSelected -= 1
+        }
+        
+        showCategoriesButton.setTitle("Categories: \(Int(countCategoriesSelected) ) selected", for: .normal)
+        
+        tableView.reloadData()
+        
+        print(categoriesSelected)
     }
     
     @IBAction func cellButtonSelectedPressed(sender: UIButton) {

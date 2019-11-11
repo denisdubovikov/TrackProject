@@ -10,6 +10,8 @@ import UIKit
 
 class CellSelectionAccountVC: UITableViewCell {
     
+    var accView = AccountViewController()
+    
     lazy var cellLabel: UILabel = {
         let label = UILabel()
         label.frame = self.frame
@@ -20,6 +22,7 @@ class CellSelectionAccountVC: UITableViewCell {
         let button = UIButton()
         button.frame = self.frame
         button.addTarget(self, action: #selector(cellButtonSelectedPressed), for: .touchUpInside)
+        button.isUserInteractionEnabled = false
         return button
     }()
     
@@ -29,6 +32,9 @@ class CellSelectionAccountVC: UITableViewCell {
         } else {
             cellButtonSelected.backgroundColor = .blue
         }
+        
+        
+        
     }
     
     override func awakeFromNib() {
