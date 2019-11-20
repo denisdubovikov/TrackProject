@@ -27,15 +27,17 @@ class CardOfANewViewController: UIViewController {
         
         view.backgroundColor = .white
         
-        imageOfTheNewRect = CGRect(x: 20, y: (self.navigationController?.navigationBar.frame.maxY)! + 20, width: view.frame.size.width - 40, height: 300)
-        let titleLabelRect = CGRect(x: 10, y: imageOfTheNewRect.height / 2, width: imageOfTheNewRect.width, height: imageOfTheNewRect.height / 2)
+        imageOfTheNewRect = CGRect(x: 20, y: (self.navigationController?.navigationBar.frame.maxY)! + 20, width: view.frame.size.width - 40, height: 280)
+        let titleLabelRect = CGRect(x: 10, y: imageOfTheNewRect.height * 2 / 3, width: imageOfTheNewRect.width - 20, height: imageOfTheNewRect.height / 3)
                 
         titleLabel = UILabel(frame: titleLabelRect)
         imageViewOfTheNew = UIImageView(frame: imageOfTheNewRect)
         backButton = UIButton(frame: CGRect(x: 0, y: 90, width: 50, height: 50))
         
+        titleLabel.numberOfLines = 2
+        
         titleLabel.text = titleOfTheNew!
-        titleLabel.font = UIFont(name: "Helvetica Neue", size: 36)
+        titleLabel.font = UIFont(name: "Helvetica Neue", size: 34)
         titleLabel.textColor = UIColor.white
         
                     
@@ -75,13 +77,14 @@ class CardOfANewViewController: UIViewController {
     func setBackButton() {
                 
 //        self.navigationController?.navigationBar.backItem?.backBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .undo, target: self, action: #selector(backButtonPressed(_:)))
+        self.navigationController?.navigationItem.backBarButtonItem?.target = Selector(("backButtonPressed")) as AnyObject
         
-        self.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: "BACK", style: .plain, target: self, action: #selector(backButtonPressed(_:)))
+//        self.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: "BACK", style: .plain, target: self, action: #selector(backButtonPressed(_:)))
         
 //        print(Selector("backButtonPressed"))
     }
     
-    @objc func backButtonPressed(_ sender: UIBarButtonItem) {
+    @objc func backButtonPressed() {
         self.navigationController?.popViewController(animated: true)
     }
     

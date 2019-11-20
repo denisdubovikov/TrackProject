@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		6C1634E323609B5D00A19E80 /* CellSelectionAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1634E223609B5D00A19E80 /* CellSelectionAccountVC.swift */; };
 		6C581BDF236E2A2D00D51019 /* MainPageButtonCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C581BDE236E2A2D00D51019 /* MainPageButtonCreator.swift */; };
+		6C9E99CF238010D200B34925 /* MyDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6C9E99CD238010D200B34925 /* MyDataModel.xcdatamodeld */; };
+		6C9E99D42380375900B34925 /* ListNews+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9E99D02380375900B34925 /* ListNews+CoreDataClass.swift */; };
+		6C9E99D52380375900B34925 /* ListNews+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9E99D12380375900B34925 /* ListNews+CoreDataProperties.swift */; };
+		6C9E99D62380375900B34925 /* New+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9E99D22380375900B34925 /* New+CoreDataClass.swift */; };
+		6C9E99D72380375900B34925 /* New+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9E99D32380375900B34925 /* New+CoreDataProperties.swift */; };
 		6CC7AA08234143440083F528 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC7AA07234143440083F528 /* AppDelegate.swift */; };
 		6CC7AA0A234143440083F528 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC7AA09234143440083F528 /* SceneDelegate.swift */; };
 		6CC7AA0C234143440083F528 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC7AA0B234143440083F528 /* ViewController.swift */; };
@@ -43,6 +48,11 @@
 /* Begin PBXFileReference section */
 		6C1634E223609B5D00A19E80 /* CellSelectionAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellSelectionAccountVC.swift; sourceTree = "<group>"; };
 		6C581BDE236E2A2D00D51019 /* MainPageButtonCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageButtonCreator.swift; sourceTree = "<group>"; };
+		6C9E99CE238010D200B34925 /* MyDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyDataModel.xcdatamodel; sourceTree = "<group>"; };
+		6C9E99D02380375900B34925 /* ListNews+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListNews+CoreDataClass.swift"; sourceTree = "<group>"; };
+		6C9E99D12380375900B34925 /* ListNews+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListNews+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		6C9E99D22380375900B34925 /* New+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "New+CoreDataClass.swift"; sourceTree = "<group>"; };
+		6C9E99D32380375900B34925 /* New+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "New+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6CC7AA04234143440083F528 /* TrackProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrackProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CC7AA07234143440083F528 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6CC7AA09234143440083F528 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +101,10 @@
 		6CC7A9FB234143440083F528 = {
 			isa = PBXGroup;
 			children = (
+				6C9E99D02380375900B34925 /* ListNews+CoreDataClass.swift */,
+				6C9E99D12380375900B34925 /* ListNews+CoreDataProperties.swift */,
+				6C9E99D22380375900B34925 /* New+CoreDataClass.swift */,
+				6C9E99D32380375900B34925 /* New+CoreDataProperties.swift */,
 				6CC7AA3723420CDA0083F528 /* .gitignore */,
 				6CC7AA06234143440083F528 /* TrackProject */,
 				6CC7AA1D234143450083F528 /* TrackProjectTests */,
@@ -115,11 +129,12 @@
 				6CC7AA07234143440083F528 /* AppDelegate.swift */,
 				6CC7AA09234143440083F528 /* SceneDelegate.swift */,
 				6CC7AA0B234143440083F528 /* ViewController.swift */,
-				6C581BDE236E2A2D00D51019 /* MainPageButtonCreator.swift */,
 				6CC7AA3B234E04540083F528 /* TableViewCell.swift */,
+				6C581BDE236E2A2D00D51019 /* MainPageButtonCreator.swift */,
 				6CC7AA4123533EC00083F528 /* CardOfANewViewController.swift */,
 				6CC7AA4323576A410083F528 /* AccountViewController.swift */,
 				6C1634E223609B5D00A19E80 /* CellSelectionAccountVC.swift */,
+				6C9E99CD238010D200B34925 /* MyDataModel.xcdatamodeld */,
 				6CC7AA0D234143440083F528 /* Main.storyboard */,
 				6CC7AA10234143450083F528 /* Assets.xcassets */,
 				6CC7AA12234143450083F528 /* LaunchScreen.storyboard */,
@@ -282,9 +297,14 @@
 				6CC7AA3C234E04540083F528 /* TableViewCell.swift in Sources */,
 				6CC7AA4423576A410083F528 /* AccountViewController.swift in Sources */,
 				6C1634E323609B5D00A19E80 /* CellSelectionAccountVC.swift in Sources */,
+				6C9E99D62380375900B34925 /* New+CoreDataClass.swift in Sources */,
 				6C581BDF236E2A2D00D51019 /* MainPageButtonCreator.swift in Sources */,
+				6C9E99CF238010D200B34925 /* MyDataModel.xcdatamodeld in Sources */,
+				6C9E99D72380375900B34925 /* New+CoreDataProperties.swift in Sources */,
 				6CC7AA0C234143440083F528 /* ViewController.swift in Sources */,
 				6CC7AA08234143440083F528 /* AppDelegate.swift in Sources */,
+				6C9E99D42380375900B34925 /* ListNews+CoreDataClass.swift in Sources */,
+				6C9E99D52380375900B34925 /* ListNews+CoreDataProperties.swift in Sources */,
 				6CC7AA0A234143440083F528 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -616,6 +636,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		6C9E99CD238010D200B34925 /* MyDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6C9E99CE238010D200B34925 /* MyDataModel.xcdatamodel */,
+			);
+			currentVersion = 6C9E99CE238010D200B34925 /* MyDataModel.xcdatamodel */;
+			path = MyDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 6CC7A9FC234143440083F528 /* Project object */;
 }

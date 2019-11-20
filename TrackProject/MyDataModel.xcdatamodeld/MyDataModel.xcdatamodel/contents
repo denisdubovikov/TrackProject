@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14903" systemVersion="18G103" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ListNews" representedClassName="ListNews" syncable="YES">
+        <relationship name="news" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="New" inverseName="listNews" inverseEntity="New"/>
+    </entity>
+    <entity name="New" representedClassName="New" syncable="YES">
+        <attribute name="author" optional="YES" attributeType="String"/>
+        <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="descr" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="url" optional="YES" attributeType="URI"/>
+        <attribute name="urlToImage" optional="YES" attributeType="URI"/>
+        <relationship name="listNews" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ListNews" inverseName="news" inverseEntity="ListNews"/>
+    </entity>
+    <elements>
+        <element name="ListNews" positionX="-54" positionY="0" width="128" height="58"/>
+        <element name="New" positionX="-63" positionY="-18" width="128" height="163"/>
+    </elements>
+</model>

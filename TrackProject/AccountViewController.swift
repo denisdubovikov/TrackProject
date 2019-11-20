@@ -30,6 +30,9 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
     var selectionViewHideButton: UIButton!
     
     var showCategoriesButton: UIButton!
+    
+    var activityIndicatorView: UIView!
+    var activityIndicator: UIActivityIndicatorView!
 
     override func viewDidLoad() {
         
@@ -44,9 +47,7 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
         selectionViewHideButton = UIButton(frame: selectionViewHideButtonFrame)
         
         setSelectionView()
-        
-//        selectionView.isHidden = true
-        
+                
         imagePicker.delegate = self
         
         let usrDefaults = UserDefaults.standard
@@ -101,11 +102,40 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         setShowCategoriesButton()
         
+        setActivityIndicatorView()
+        
+        setBackButton()
+        
         // Do any additional setup after loading the view.
     }
     
-    func setChoseProfilePictureButton() {
+    func setActivityIndicatorView() {
+        activityIndicatorView = UIView(frame: CGRect(x: view.frame.size.width / 2 - 30, y: view.frame.size.height / 2 - 30, width: 60, height: 60))
+        activityIndicatorView.clipsToBounds = true
+        activityIndicatorView.layer.cornerRadius = 10
         
+        activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 10, width: 40, height: 40))
+        
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        
+        blurView.frame = activityIndicatorView.bounds
+        
+        activityIndicatorView.addSubview(blurView)
+        activityIndicatorView.alpha = 1
+        activityIndicatorView.insertSubview(blurView, at: 0)
+        
+        activityIndicator.layer.zPosition = 100
+        activityIndicator.style = UIActivityIndicatorView.Style.gray
+        
+        activityIndicatorView.addSubview(activityIndicator)
+        
+        activityIndicatorView.isHidden = true
+        
+        view.addSubview(activityIndicatorView)
+    }
+    
+    func setChoseProfilePictureButton() {
         choseProfilePictureButton = UIButton(frame: CGRect(x: photoImageView.frame.maxX - 50, y: photoImageView.frame.maxY + 20, width: 50, height: 50))
         
         choseProfilePictureButton.setImage(UIImage(named: "Camera_2"), for: .normal)
@@ -115,6 +145,26 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         view.addSubview(choseProfilePictureButton)
     }
+    
+    
+    
+    
+    
+    func setBackButton() {
+        self.navigationController?.navigationBar.backItem?.backBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .undo, target: self, action: #selector(backButtonPressed))
+        }
+    
+    
+    
+    
+        
+    @objc func backButtonPressed() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    
+    
+    
     
     @IBAction func setChoseProfilePictureButtonPressed() {
         imagePicker.sourceType = .photoLibrary
@@ -136,8 +186,10 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     @IBAction func GCDPressed() {
+        activityIndicatorView.isHidden = false
+        activityIndicator.startAnimating()
         
-        DispatchQueue.global().async {
+        DispatchQueue.main.async {
             let usrDefaults = UserDefaults.standard
             
             usrDefaults.set(self.userNameTextField.text!, forKey: "username")
@@ -146,6 +198,9 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
             usrDefaults.set(self.countCategoriesSelected, forKey: "countCategoriesSelected")
             
             usrDefaults.synchronize()
+            
+            self.activityIndicator.stopAnimating()
+            self.activityIndicatorView.isHidden = true
         }
     }
     
@@ -193,7 +248,6 @@ class AccountViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func setSelectionView() {
-        
         setSelectionTbView()
         setSelectionViewHideButton()
         

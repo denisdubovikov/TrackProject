@@ -9,19 +9,32 @@
 import UIKit
 
 class TableViewCell: UITableViewCell {
+        
+    lazy var cellTitleLabel: UILabel = {
+        let label = UILabel()
+        label.frame = self.frame
+        return label
+    }()
     
-    @IBOutlet weak var TableViewCellTitle: UILabel!
-    @IBOutlet weak var TableViewCellImageView: UIImageView!
+    lazy var cellImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.frame = self.frame
+        return imageView
+    }()
     
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//
-//        TableViewCellImageView.image = nil
-//    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        cellImageView.image = nil
+    }
     
-//    override func layoutSubviews() {
-//        print("")
-//    }
+    override func layoutSubviews() {
+        
+        addSubview(cellTitleLabel)
+        addSubview(cellImageView)
+    }
+    
+    
     
     override func awakeFromNib() {
                 
