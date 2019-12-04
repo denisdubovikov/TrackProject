@@ -16,6 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        window = UIWindow()
+        window?.makeKeyAndVisible()
+        window?.rootViewController = StartScreen()
+        
         print("Func: didFinishLaunchingWithOptions. Tells the delegate that the launch process is almost done and the app is almost ready to run.")
         return true
     }

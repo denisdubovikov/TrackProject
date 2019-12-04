@@ -22,6 +22,12 @@ class TableViewCell: UITableViewCell {
         return imageView
     }()
     
+    lazy var cellActivityIndicatorView: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.isHidden = true
+        return indicator
+    }()
+    
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -32,6 +38,7 @@ class TableViewCell: UITableViewCell {
         
         addSubview(cellTitleLabel)
         addSubview(cellImageView)
+        addSubview(cellActivityIndicatorView)
     }
     
     
@@ -46,6 +53,10 @@ class TableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    override func willTransition(to state: UITableViewCell.StateMask) {
+        cellImageView.image = nil
     }
 
 }

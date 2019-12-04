@@ -15,6 +15,7 @@ class CellSelectionAccountVC: UITableViewCell {
     lazy var cellLabel: UILabel = {
         let label = UILabel()
         label.frame = self.frame
+        
         return label
     }()
     
@@ -23,17 +24,18 @@ class CellSelectionAccountVC: UITableViewCell {
         button.frame = self.frame
         button.addTarget(self, action: #selector(cellButtonSelectedPressed), for: .touchUpInside)
         button.isUserInteractionEnabled = false
+        
         return button
     }()
     
+    lazy var cellTickImageView: UIImageView! = {
+        let tickImageView = UIImageView()
+        tickImageView.frame = self.frame
+        
+        return tickImageView
+    }()
+    
     @IBAction func cellButtonSelectedPressed() {
-        if cellButtonSelected.backgroundColor != .green {
-            cellButtonSelected.backgroundColor = .green
-        } else {
-            cellButtonSelected.backgroundColor = .blue
-        }
-        
-        
         
     }
     
